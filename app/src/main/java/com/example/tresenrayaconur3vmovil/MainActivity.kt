@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tresenrayaconur3vmovil.Screens.HomeScreen
+import com.example.tresenrayaconur3vmovil.Screens.SettingsScreen
 import com.example.tresenrayaconur3vmovil.ui.theme.TresEnRayaConUR3VMovilTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     navController = navigationController,
                     startDestination = Routes.HomeScreen.route
                 ) {
-                    composable(Routes.HomeScreen.route) {HomeScreen(navigationController) }
+                    composable(Routes.HomeScreen.route) { HomeScreen(navigationController) }
+                    composable(Routes.SettingsScreen.route) { SettingsScreen(navigationController) }
 
                 }
             }
