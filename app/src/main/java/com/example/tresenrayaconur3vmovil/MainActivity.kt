@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
                     composable(Routes.HomeScreen.route) { HomeScreen(navigationController) }
                     composable(Routes.SettingsScreen.route) { SettingsScreen(navigationController) }
                     composable(Routes.ConnectScreen.route) { ConnectScreen(navigationController) }
+                    composable(Routes.GameScreen.route) { GameScreen(navigationController) }
                 }
             }
         }
