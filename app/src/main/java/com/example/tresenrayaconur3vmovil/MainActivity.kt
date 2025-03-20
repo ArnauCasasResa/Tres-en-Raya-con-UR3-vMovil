@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable(Routes.HomeScreen.route) { HomeScreen(navigationController) }
                     composable(Routes.SettingsScreen.route) { SettingsScreen(navigationController) }
-                    composable(Routes.ConnectScreen.route) { ConnectScreen(navigationController) }
+
                     composable(Routes.GameScreen.route) { GameScreen(navigationController) }
                 }
             }

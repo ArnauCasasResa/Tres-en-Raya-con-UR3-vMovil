@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -31,33 +32,58 @@ import kotlinx.coroutines.delay
 @Composable
 fun HomeScreen(navController: NavController) {
     val titulo = "Tres en Raya"
-    Column(modifier = Modifier.fillMaxSize(),horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center){
-        Image(painter =painterResource(R.drawable.logo), contentDescription = "Imagen")
-        AnimatedText(titulo)
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(painter = painterResource(R.drawable.logo), contentDescription = "Imagen")
+        AnimatedText(titulo, 200, 40, titleFont)
 
-        Button(onClick = {}) { Text(text = "Jugar")}
-        Button(onClick = {navController.navigate(Routes.SettingsScreen.route)}) {
-            Text(text = "Ajustes")
-            Icon(imageVector = Icons.Filled.Settings , contentDescription = "Ajustes")
+        Button(onClick = { navController.navigate(Routes.GameScreen.route) }) {
+            Text(text = "Jugar ")
+            Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = "Jugar")
+        }
+        Button(onClick = { navController.navigate(Routes.SettingsScreen.route) }) {
+            Text(text = "Ajustes ")
+            Icon(imageVector = Icons.Filled.Settings, contentDescription = "Ajustes")
         }
     }
 }
 
 
 @Composable
-fun AnimatedText(titulo: String) {
+fun AnimatedText(
+    titulo: String,
+    tiempoAnim: Long,
+    fontSize: Int = 20,
+    font: FontFamily = FontFamily.Default,
+    infiniteLoop: Boolean = false
+) {
     var displayedText by remember { mutableStateOf("") }
-
-    LaunchedEffect(titulo) {
-        titulo.forEachIndexed { index, _ ->
-            displayedText = titulo.substring(0, index + 1)
-            delay(200) // Ajusta el delay para cambiar la velocidad del efecto
+    if (!infiniteLoop) {
+        LaunchedEffect(titulo) {
+            titulo.forEachIndexed { index, _ ->
+                displayedText = titulo.substring(0, index + 1)
+                delay(tiempoAnim) // Ajusta el delay para cambiar la velocidad del efecto
+            }
+        }
+    } else {
+        LaunchedEffect(titulo) {
+            while (true) {
+                titulo.forEachIndexed { index, _ ->
+                    displayedText = titulo.substring(0, index + 1)
+                    delay(tiempoAnim) // Ajusta el delay para cambiar la velocidad del efecto
+                }
+                displayedText = ""
+            }
         }
     }
-    Row{
-        Text(text = displayedText, fontFamily = titleFont, fontSize = 40.sp)
+
+    Row {
+        Text(text = displayedText, fontFamily = font, fontSize = fontSize.sp)
     }
 }
 
 
-var titleFont:FontFamily= FontFamily(Font(R.font.title))
+var titleFont: FontFamily = FontFamily(Font(R.font.title))
