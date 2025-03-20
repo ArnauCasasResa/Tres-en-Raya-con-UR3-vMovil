@@ -4,5 +4,6 @@ sealed class Routes(val route: String)
 {
     object HomeScreen:Routes("home_screen" )
     object SettingsScreen:Routes("settings_screen" )
+    object ConnectScreen:Routes("connect_screen" )
 
 }
