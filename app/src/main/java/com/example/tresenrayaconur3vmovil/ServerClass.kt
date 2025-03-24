@@ -10,9 +10,9 @@ import java.net.Socket
 class ServerClass() :Thread(){
     lateinit var serverSocket:ServerSocket
     lateinit var clientSocket: Socket
-    lateinit var  outputStream: PrintWriter
+    lateinit var outputStream: PrintWriter
 
-    override fun run() {
+    fun iniciar() {
         try {
             serverSocket = ServerSocket(5858)
             clientSocket = serverSocket.accept()

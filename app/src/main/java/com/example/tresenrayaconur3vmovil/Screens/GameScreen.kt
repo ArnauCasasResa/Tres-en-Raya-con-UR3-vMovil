@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,11 +32,13 @@ import com.example.tresenrayaconur3vmovil.TresEnRalla
 fun GameScreen(navController: NavController) {
     var server = ServerClass()
     var juego by remember { mutableStateOf(TresEnRalla()) }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Button(onClick = { server.iniciar() }) {Text("Iniciar") }
         AnimatedText(juego.turno.value, 125, 50, titleFont)
         for ((filaIndex, fila) in juego.tablero.withIndex()) {
             Row {
@@ -48,6 +51,12 @@ fun GameScreen(navController: NavController) {
                             .clickable{
                                 if (juego.comprovacionFichaPossible(columnaIndex, filaIndex)) {
                                     juego.ponerFicha(columnaIndex, filaIndex)
+                                    try {
+                                        server.write(juego.enviarRobotPosiFicha(juego.turno.value, Pair(columnaIndex, filaIndex)))
+                                    }catch (ex:Exception){
+                                        ex.printStackTrace()
+                                    }
+
                                     juego.cambiarTurno()
                                 }
                             }, contentAlignment = Alignment.Center
@@ -60,6 +69,9 @@ fun GameScreen(navController: NavController) {
             }
         }
 
+        if(juego.comprobacionGanador().first){
+
+        }
     }
 }
 
