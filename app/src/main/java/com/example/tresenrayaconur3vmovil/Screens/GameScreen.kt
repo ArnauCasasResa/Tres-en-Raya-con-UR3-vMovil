@@ -1,6 +1,6 @@
 package com.example.tresenrayaconur3vmovil.Screens
 
-import android.R.attr.padding
+import android.text.Layout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,25 +26,32 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tresenrayaconur3vmovil.ServerClass
 import com.example.tresenrayaconur3vmovil.TresEnRalla
-import java.net.ServerSocket
 
 @Composable
-fun GameScreen(navController: NavController){
-    var server=ServerClass()
-    var juego=TresEnRalla()
-    Column(modifier = Modifier.fillMaxSize(),horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center) {
-        AnimatedText(juego.turno, 200, 50, titleFont)
-        for (fila in juego.tablero) {
+fun GameScreen(navController: NavController) {
+    var server = ServerClass()
+    var juego by remember { mutableStateOf(TresEnRalla()) }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        AnimatedText(juego.turno.value, 125, 50, titleFont)
+        for ((filaIndex, fila) in juego.tablero.withIndex()) {
             Row {
-                for (casilla in fila) {
-                    Box(modifier = Modifier.size(80.dp).border(2.dp, Color.Black).background(Color.White)
-                        .clickable{
-                            //val envio=juego.enviarRobotPosiFicha(juego.turno,Pair(fila.indexOf(casilla),juego.tablero.indexOf(fila)))
-                            if(juego.comprovacionFichaPossible(fila.indexOf(casilla),juego.tablero.indexOf(fila))){
-                                juego.ponerFicha(fila.indexOf(casilla),juego.tablero.indexOf(fila))
-                                juego.cambiarTurno()
-                            }
-                        }){
+                for ((columnaIndex, casilla) in fila.withIndex()) {
+                    Box(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .border(2.dp, Color.Black)
+                            .background(Color.White)
+                            .clickable{
+                                if (juego.comprovacionFichaPossible(columnaIndex, filaIndex)) {
+                                    juego.ponerFicha(columnaIndex, filaIndex)
+                                    juego.cambiarTurno()
+                                }
+                            }, contentAlignment = Alignment.Center
+                    ) {
                         if (casilla != "n") {
                             Text(text = casilla, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                         }
@@ -52,6 +59,7 @@ fun GameScreen(navController: NavController){
                 }
             }
         }
+
     }
 }
 

@@ -1,20 +1,23 @@
 package com.example.tresenrayaconur3vmovil
 
-import java.io.PrintWriter
+import androidx.compose.runtime.mutableStateOf
 
 class TresEnRalla {
-    var turno = "JUGADOR1"
-    internal var tablero = mutableListOf(
+    private val _turno = mutableStateOf<String>("JUGADOR1")
+    val turno = _turno
+
+
+    var tablero = mutableListOf(
         mutableListOf("n", "n", "n"),
         mutableListOf("n", "n", "n"),
         mutableListOf("n", "n", "n")
     )
 
     fun cambiarTurno() {
-        if (turno == "JUGADOR1") {
-            turno = "JUGADOR2"
-        } else if (turno == "JUGADOR2") {
-            turno = "JUGADOR1"
+        if (_turno.value == "JUGADOR1") {
+            _turno.value = "JUGADOR2"
+        } else if (_turno.value == "JUGADOR2") {
+            _turno.value = "JUGADOR1"
         }
     }
 
@@ -28,16 +31,11 @@ class TresEnRalla {
     }
 
     fun ponerFicha(columna: Int, fila: Int) {
-        if (comprovacionFichaPossible(columna, fila)) {
-            if (turno == "JUGADOR1") {
-                tablero[fila][columna] = "X"
-                //conexion.println(mensaje)
-            } else if (turno == "JUGADOR2") {
-                tablero[fila][columna] = "O"
-            }
-            cambiarTurno()
-        } else {
-            println("En esta casilla no se puede poner una ficha, ya hay una ficha alli!")
+        if (_turno.value == "JUGADOR1") {
+            tablero[fila][columna] = "X"
+            //conexion.println(mensaje)
+        } else if (_turno.value == "JUGADOR2") {
+            tablero[fila][columna] = "O"
         }
     }
 
@@ -48,6 +46,7 @@ class TresEnRalla {
         }
         return sePuede
     }
+
     fun comprobacionGanador(): Pair<Boolean, String> {
         var ganador = false
         var jugadorGanador = ""
@@ -82,8 +81,7 @@ class TresEnRalla {
     }
 
 
-
-    fun enviarRobotPosiFicha(jugador:String,posiciones:Pair<Int,Int>):String {
+    fun enviarRobotPosiFicha(jugador: String, posiciones: Pair<Int, Int>): String {
         var mensaje = ""
         when (posiciones) {
             Pair(0, 0) -> {
